@@ -18,7 +18,7 @@ function contacts_civicrm_buildForm($formName, &$form) {
       if ($formLang != $cmsLang) {
         // warning!
         if ($cmsLang == 'fr_FR') {
-          CRM_Core_Session::setStatus("La langue de la personne est $formLang, mais la langue du site est $cmsLang.<br><br>Changer d'abord la langue du site sinon la civilité et les salutations seront erronées!", 'Attention', 'warning', ['expires' => 0]);
+          CRM_Core_Session::setStatus("La langue de la personne est $formLang, mais la langue du site est $cmsLang.<br><br>Changez d'abord la langue du site sinon la civilité et les salutations seront erronées!", 'Attention', 'warning', ['expires' => 0]);
         }
         else {
           CRM_Core_Session::setStatus("De taal van de persoon is $formLang, maar de taal van de website is $cmsLang.<br><br>Verander eerst de taal van de site of het voorvoegsel en de aanspreking zijn verkeerd!", 'Opgelet', 'warning', ['expires' => 0]);
