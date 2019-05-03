@@ -6,14 +6,15 @@ use CRM_Contacts_ExtensionUtil as E;
 
 function contacts_civicrm_buildForm($formName, &$form) {
   // check the language when editing a person
+  var_dump($form->_preEditValues);
   if ($formName == 'CRM_Contact_Form_Contact' && CRM_Core_Action::UPDATE && $form->_contactType == 'Individual') {
     // get the language of the form
     $formLang = $form->_preEditValues['preferred_language'];
 
-    if ($formLang) {
-      // get the language of the CMS
-      $cmsLang = CRM_Utils_System::getUFLocale();
+    // get the language of the CMS
+    $cmsLang = CRM_Utils_System::getUFLocale();
 
+    if ($formLang && $form->_preEditValues['id']) {
       // make sure the CMS is in Dutch when editing a Dutch contact, French when French...
       if ($formLang != $cmsLang) {
         // warning!
@@ -24,6 +25,12 @@ function contacts_civicrm_buildForm($formName, &$form) {
           CRM_Core_Session::setStatus("De taal van de persoon is $formLang, maar de taal van de website is $cmsLang.<br><br>Verander eerst de taal van de site of het voorvoegsel en de aanspreking zijn verkeerd!", 'Opgelet', 'warning', ['expires' => 0]);
         }
       }
+    }
+    else {
+      // no form language or id (possibly a new contact)
+      // set the default language = cms language
+      $defaults['preferred_language'] = $cmsLang;
+      $form->setDefaults($defaults);
     }
   }
 }
