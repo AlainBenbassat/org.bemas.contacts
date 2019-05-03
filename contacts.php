@@ -6,7 +6,6 @@ use CRM_Contacts_ExtensionUtil as E;
 
 function contacts_civicrm_buildForm($formName, &$form) {
   // check the language when editing a person
-  var_dump($form->_preEditValues);
   if ($formName == 'CRM_Contact_Form_Contact' && CRM_Core_Action::UPDATE && $form->_contactType == 'Individual') {
     // get the language of the form
     $formLang = $form->_preEditValues['preferred_language'];
