@@ -10,25 +10,25 @@ function contacts_civicrm_buildForm($formName, &$form) {
     // get the language of the form
     $formLang = $form->_preEditValues['preferred_language'];
 
-    // get the language of the CMS
-    $cmsLang = CRM_Utils_System::getUFLocale();
+    // get the language of the civi site
+    $tsLang =CRM_Core_I18n::getLocale();
 
     if ($formLang && $form->_preEditValues['id']) {
       // make sure the CMS is in Dutch when editing a Dutch contact, French when French...
-      if ($formLang != $cmsLang) {
+      if ($formLang != $tsLang) {
         // warning!
-        if ($cmsLang == 'fr_FR') {
-          CRM_Core_Session::setStatus("La langue de la personne est $formLang, mais la langue du site est $cmsLang.<br><br>Changez d'abord la langue du site sinon la civilité et les salutations seront erronées!", 'Attention', 'warning', ['expires' => 0]);
+        if ($tsLang == 'fr_FR') {
+          CRM_Core_Session::setStatus("La langue de la personne est $formLang, mais la langue du site est $tsLang.<br><br>Changez d'abord la langue du site sinon la civilité et les salutations seront erronées!", 'Attention', 'warning', ['expires' => 0]);
         }
         else {
-          CRM_Core_Session::setStatus("De taal van de persoon is $formLang, maar de taal van de website is $cmsLang.<br><br>Verander eerst de taal van de site of het voorvoegsel en de aanspreking zijn verkeerd!", 'Opgelet', 'warning', ['expires' => 0]);
+          CRM_Core_Session::setStatus("De taal van de persoon is $formLang, maar de taal van de website is $tsLang.<br><br>Verander eerst de taal van de site of het voorvoegsel en de aanspreking zijn verkeerd!", 'Opgelet', 'warning', ['expires' => 0]);
         }
       }
     }
     else {
       // no form language or id (possibly a new contact)
       // set the default language = cms language
-      $defaults['preferred_language'] = $cmsLang;
+      $defaults['preferred_language'] = $tsLang;
       $form->setDefaults($defaults);
     }
   }
