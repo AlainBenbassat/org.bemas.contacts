@@ -5,32 +5,8 @@ use CRM_Contacts_ExtensionUtil as E;
 
 
 function contacts_civicrm_buildForm($formName, &$form) {
-  // check the language when editing a person
-  if ($formName == 'CRM_Contact_Form_Contact' && CRM_Core_Action::UPDATE && $form->_contactType == 'Individual') {
-    // get the language of the form
-    $formLang = $form->_preEditValues['preferred_language'];
-
-    // get the language of the civi site
-    $tsLang =CRM_Core_I18n::getLocale();
-
-    if ($formLang && $form->_preEditValues['id']) {
-      // make sure the CMS is in Dutch when editing a Dutch contact, French when French...
-      if ($formLang != $tsLang) {
-        // warning!
-        if ($tsLang == 'fr_FR') {
-          CRM_Core_Session::setStatus("La langue de la personne est $formLang, mais la langue du site est $tsLang.<br><br>Changez d'abord la langue du site sinon la civilité et les salutations seront erronées!", 'Attention', 'warning', ['expires' => 0]);
-        }
-        else {
-          CRM_Core_Session::setStatus("De taal van de persoon is $formLang, maar de taal van de website is $tsLang.<br><br>Verander eerst de taal van de site of het voorvoegsel en de aanspreking zijn verkeerd!", 'Opgelet', 'warning', ['expires' => 0]);
-        }
-      }
-    }
-    else {
-      // no form language or id (possibly a new contact)
-      // set the default language = cms language
-      $defaults['preferred_language'] = $tsLang;
-      $form->setDefaults($defaults);
-    }
+  if (CRM_Bemascontacts_Helper::updatingIndividual($formName, $form)) {
+    CRM_Bemascontacts_Language::showWarningOrSetDefaultLanguage($form);
   }
 }
 
