@@ -10,6 +10,21 @@ function contacts_civicrm_buildForm($formName, &$form) {
   }
 }
 
+function contacts_civicrm_postCommit($op, $objectName, $objectId, &$objectRef) {
+  if (CRM_Bemascontacts_Helper::savingMemberContactRelationship($objectName, $objectRef)) {
+    CRM_Bemascontacts_Relationship::writeBemasFunctionIntoMainAddress($objectRef->contact_id_a);
+  }
+  elseif (CRM_Bemascontacts_Helper::savingIndividual($op, $objectName)) {
+    CRM_Bemascontacts_Relationship::writeBemasFunctionIntoMainAddress($objectId);
+  }
+}
+
+function contacts_civicrm_custom($op, $groupID, $entityID, &$params) {
+  if (CRM_Bemascontacts_Helper::savingIndividualDetails($op, $groupID)) {
+    CRM_Bemascontacts_Relationship::writeBemasFunctionIntoMainAddress($entityID);
+  }
+}
+
 /**
  * Implements hook_civicrm_config().
  *
