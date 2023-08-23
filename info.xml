@@ -2,7 +2,7 @@
 <extension key="org.bemas.contacts" type="module">
   <file>contacts</file>
   <name>Custom stuff for contacts @ BEMAS</name>
-  <description></description>
+  <description/>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Alain Benbassat</author>
@@ -17,8 +17,12 @@
   <compatibility>
     <ver>5.0</ver>
   </compatibility>
-  <comments></comments>
+  <comments/>
   <civix>
     <namespace>CRM/Contacts</namespace>
+    <format>22.10.0</format>
   </civix>
+  <classloader>
+    <psr0 prefix="CRM_" path="."/>
+  </classloader>
 </extension>
