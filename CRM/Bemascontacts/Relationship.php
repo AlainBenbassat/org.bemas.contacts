@@ -88,7 +88,7 @@ class CRM_Bemascontacts_Relationship {
       'postal_code' => '',
       'street_address' => '',
       'street_name' => '',
-      'city' => $concatenatedFunction,
+      'city' => substr($concatenatedFunction, 0, 64),
     ];
 
     if (self::updateMainAddress($params) == FALSE) {
